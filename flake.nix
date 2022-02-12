@@ -4,7 +4,7 @@
   };
   outputs = {
     checks = {
-      hlint = runCommand "hlint" { meta = { description = "Run hlint"; } } "cd ${self}; ${hlint}/bin/hlint";
+      hlint = runCommand "hlint" { meta = { description = "Run hlint"; }; } "cd ${self}; ${hlint}/bin/hlint";
     };
   };
 }
