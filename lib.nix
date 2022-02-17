@@ -39,6 +39,10 @@ rec {
     '';
   };
 
+  hpack = src: porcelainOrDie src "hpack"
+    "find . -name 'package.yaml' | xargs ${hpack}/bin/hpack"
+    "Cabal files not up to date with hpack, try running 'find . -name \'package.yaml\' | xargs hpack";
+
   nixpkgs-fmt = src: porcelainOrDie src "nixpkgs-fmt"
     "find . -name '*.nix' | xargs ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt"
     "Found errors with nixpkgs-fmt, try running 'find . -name \'*.nix\' | xargs nixpkgs-fmt'";
