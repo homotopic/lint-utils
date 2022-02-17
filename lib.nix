@@ -48,7 +48,7 @@ rec {
     "Found errors with ormolu, try running 'find . -name \'*.hs\' | xargs ormolu -i";
 
   stylish-haskell = src: porcelainOrDie src "stylish-haskell"
-    "find . -name '*.hs' | xargs ${pkgs.stylish-haskell}/bin/stylish-haskell"
+    "find . -name '*.hs' | xargs ${pkgs.stylish-haskell}/bin/stylish-haskell -i"
     "Found errors with stylish-haskell, try running 'find . -name \'*.hs\' | xargs stylish-haskell -i";
 
 }
