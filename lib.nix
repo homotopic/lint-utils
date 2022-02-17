@@ -39,8 +39,12 @@ rec {
     '';
   };
 
+  dhall-format = src: porcelainOrDie src "dhall-format"
+    "find . -name '*.dhall' | xargs -I{} ${pkgs.dhall}/bin/dhall format {} --unicode"
+    "Found errors with dhall format, try running 'find .-name \'*.dhall\' | xargs -I{} dhall format {} --unicode";
+
   hpack = src: porcelainOrDie src "hpack"
-    "find . -name 'package.yaml' | xargs ${hpack}/bin/hpack"
+    "find . -name 'package.yaml' | xargs ${pkgs.hpack}/bin/hpack"
     "Cabal files not up to date with hpack, try running 'find . -name \'package.yaml\' | xargs hpack";
 
   nixpkgs-fmt = src: porcelainOrDie src "nixpkgs-fmt"
