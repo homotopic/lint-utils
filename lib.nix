@@ -53,7 +53,7 @@ rec {
   lint-error = name: app:
     "Found errors with ${name}, try running ${app}/bin/lint";
 
-  linter = name: app: src:
+  porcelainLinter = name: app: src:
     porcelainOrDie src name "${app}/bin/lint" (lint-error name app);
 
   hlint = src: pkgs.stdenv.mkDerivation {
@@ -75,12 +75,12 @@ rec {
   };
 
   linters = {
-    dhall-format = linter "dhall-format" dhall-format;
+    dhall-format = porcelainLinter "dhall-format" dhall-format;
     hlint = hlint;
-    hpack = linter "hpack" hpack;
-    nixpkgs-fmt = linter "nixpkgs-fmt" nixpkgs-fmt;
-    ormolu = linter "ormolu" ormolu;
-    stylish-haskell = linter "stylish-haskell" stylish-haskell;
+    hpack = porcelainLinter "hpack" hpack;
+    nixpkgs-fmt = porcelainLinter "nixpkgs-fmt" nixpkgs-fmt;
+    ormolu = porcelainLinter "ormolu" ormolu;
+    stylish-haskell = porcelainLinter "stylish-haskell" stylish-haskell;
   };
 
 }
