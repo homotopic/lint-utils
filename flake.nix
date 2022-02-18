@@ -10,9 +10,10 @@
         lib = import ./lib.nix { inherit pkgs; };
       in
       {
-        linters = lib;
+        apps = lib.apps;
+        linters = lib.linters;
         checks = {
-          nixpkgs-fmt = lib.nixpkgs-fmt ./.;
+          nixpkgs-fmt = lib.linters.nixpkgs-fmt ./.;
         };
       });
 }

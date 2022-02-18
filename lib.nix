@@ -2,7 +2,6 @@
 rec {
 
   porcelainOrDieScript = cmd: advice: pkgs.writers.writeBashBin "lint" ''
-    ls
     echo "Running ${cmd}"
     ${cmd}
     if [ -z "$(git status --porcelain)" ]; then
@@ -29,6 +28,34 @@ rec {
     '';
   };
 
+  lint-app = app: {
+    type = "app";
+    program = "${app}/bin/lint";
+  };
+
+  lint-bin = cmd: pkgs.writers.writeBashBin "lint" cmd;
+
+  dhall-format = lint-bin
+    "find . -name '*.dhall' | xargs -I{} ${pkgs.dhall}/bin/dhall format {} --unicode";
+
+  nixpkgs-fmt = lint-bin
+    "find . -name '*.nix' | xargs ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt";
+
+  hpack = lint-bin
+    "find . -name 'package.yaml' | xargs ${pkgs.hpack}/bin/hpack";
+
+  ormolu = lint-bin
+    "find . -name '*.hs | xargs ${pkgs.ormolu}/bin/ormolu -i";
+
+  stylish-haskell = lint-bin
+    "find . -name '*.hs' | xargs ${pkgs.stylish-haskell}/bin/stylish-haskell -i";
+
+  lint-error = name: app:
+    "Found errors with ${name}, try running ${app}/bin/lint";
+
+  linter = name: app: src:
+    porcelainOrDie src name "${app}/bin/lint" (lint-error name app);
+
   hlint = src: pkgs.stdenv.mkDerivation {
     name = "hlint";
     src = src;
@@ -39,24 +66,20 @@ rec {
     '';
   };
 
-  dhall-format = src: porcelainOrDie src "dhall-format"
-    "find . -name '*.dhall' | xargs -I{} ${pkgs.dhall}/bin/dhall format {} --unicode"
-    "Found errors with dhall format, try running 'find .-name \'*.dhall\' | xargs -I{} dhall format {} --unicode";
+  apps = {
+    dhall-format = lint-app dhall-format;
+    hpack = lint-app hpack;
+    nixpkgs-fmt = lint-app nixpkgs-fmt;
+    ormolu = lint-app ormolu;
+    stylish-haskell = lint-app stylish-haskell;
+  };
 
-  hpack = src: porcelainOrDie src "hpack"
-    "find . -name 'package.yaml' | xargs ${pkgs.hpack}/bin/hpack"
-    "Cabal files not up to date with hpack, try running 'find . -name \'package.yaml\' | xargs hpack";
-
-  nixpkgs-fmt = src: porcelainOrDie src "nixpkgs-fmt"
-    "find . -name '*.nix' | xargs ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt"
-    "Found errors with nixpkgs-fmt, try running 'find . -name \'*.nix\' | xargs nixpkgs-fmt'";
-
-  ormolu = src: porcelainOrDie src "ormolu"
-    "find . -name '*.hs | xargs ${pkgs.ormolu}/bin/ormolu"
-    "Found errors with ormolu, try running 'find . -name \'*.hs\' | xargs ormolu -i";
-
-  stylish-haskell = src: porcelainOrDie src "stylish-haskell"
-    "find . -name '*.hs' | xargs ${pkgs.stylish-haskell}/bin/stylish-haskell -i"
-    "Found errors with stylish-haskell, try running 'find . -name \'*.hs\' | xargs stylish-haskell -i";
+  linters = {
+    dhall-format = linter "dhall-format" dhall-format;
+    hpack = linter "hpack" hpack;
+    nixpkgs-fmt = linter "nixpkgs-fmt" nixpkgs-fmt;
+    ormolu = linter "ormolu" ormolu;
+    stylish-haskell = linter "stylish-haskell" stylish-haskell;
+  };
 
 }
