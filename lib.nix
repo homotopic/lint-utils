@@ -76,6 +76,7 @@ rec {
 
   linters = {
     dhall-format = linter "dhall-format" dhall-format;
+    hlint = hlint;
     hpack = linter "hpack" hpack;
     nixpkgs-fmt = linter "nixpkgs-fmt" nixpkgs-fmt;
     ormolu = linter "ormolu" ormolu;
