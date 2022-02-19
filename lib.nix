@@ -35,6 +35,9 @@ rec {
 
   lint-bin = cmd: pkgs.writers.writeBashBin "lint" cmd;
 
+  cabal-fmt = lint-bin
+    "find . -name '*.cabal' | xargs ${pkgs.haskellPackages.cabal-fmt}/bin/cabal-fmt -i";
+
   dhall-format = lint-bin
     "find . -name '*.dhall' | xargs -I{} ${pkgs.dhall}/bin/dhall format {} --unicode";
 
@@ -67,6 +70,7 @@ rec {
   };
 
   apps = {
+    cabal-fmt = lint-app cabal-fmt;
     dhall-format = lint-app dhall-format;
     hpack = lint-app hpack;
     nixpkgs-fmt = lint-app nixpkgs-fmt;
@@ -75,6 +79,7 @@ rec {
   };
 
   linters = {
+    cabal-fmt = porcelainLinter "cabal-fmt" cabal-fmt;
     dhall-format = porcelainLinter "dhall-format" dhall-format;
     hlint = hlint;
     hpack = porcelainLinter "hpack" hpack;
