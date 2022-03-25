@@ -84,8 +84,8 @@ rec {
   apps = {
     cabal-fmt = lint-app cabal-fmt;
     dhall-format = lint-app dhall-format;
-    fourmoluStandard8107 = lint-app fourmoluStandardGhc8107;
-    fourmoluStandard921 = lint-app fourmoluStandardGhc921;
+    fourmoluStandardGhc8107 = lint-app fourmoluStandardGhc8107;
+    fourmoluStandardGhc921 = lint-app fourmoluStandardGhc921;
     hpack = lint-app hpack;
     nixpkgs-fmt = lint-app nixpkgs-fmt;
     ormoluStandardGhc8107 = lint-app ormoluStandardGhc8107;
