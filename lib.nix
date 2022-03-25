@@ -48,7 +48,7 @@ rec {
     "find . -name 'package.yaml' | xargs ${pkgs.hpack}/bin/hpack";
 
   fourmoluWithOpts = opts: lint-bin
-    "find . -name '*.hs' | xargs ${pkgs.haskellPackages.formolu}/bin/fourmolu -m inplace ${opts}";
+    "find . -name '*.hs' | xargs ${pkgs.haskellPackages.fourmolu}/bin/fourmolu -m inplace ${opts}";
 
   ormoluWithOpts = opts: lint-bin
     "find . -name '*.hs' | xargs ${pkgs.ormolu}/bin/ormolu -i ${opts}";
