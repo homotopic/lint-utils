@@ -47,8 +47,20 @@ rec {
   hpack = lint-bin
     "find . -name 'package.yaml' | xargs ${pkgs.hpack}/bin/hpack";
 
-  ormolu = lint-bin
-    "find . -name '*.hs | xargs ${pkgs.ormolu}/bin/ormolu -i";
+  fourmoluWithOpts = opts: lint-bin
+    "find . -name '*.hs' | xargs ${pkgs.haskellPackages.formolu}/bin/fourmolu -m inplace ${opts}";
+
+  ormoluWithOpts = opts: lint-bin
+    "find . -name '*.hs' | xargs ${pkgs.ormolu}/bin/ormolu -i ${opts}";
+
+  ormoluStandardGhc8107 = ormoluWithOpts "-o-XTypeApplications";
+
+  fourmoluStandardGhc8107 = fourmoluWithOpts "-o-XTypeApplications";
+
+  ormoluStandardGhc921 = ormoluWithOpts "-o-XTypeApplications -o-XQualifiedDo -o-XOverloadedRecordDot";
+
+  fourmoluStandardGhc921 = fourmoluWithOpts "-o-XTypeApplications -o-XQualifiedDo -o-XOverloadedRecordDot";
+
 
   stylish-haskell = lint-bin
     "find . -name '*.hs' | xargs ${pkgs.stylish-haskell}/bin/stylish-haskell -i";
@@ -72,19 +84,27 @@ rec {
   apps = {
     cabal-fmt = lint-app cabal-fmt;
     dhall-format = lint-app dhall-format;
+    fourmoluStandard8107 = lint-app fourmoluStandardGhc8107;
+    fourmoluStandard921 = lint-app fourmoluStandardGhc921;
     hpack = lint-app hpack;
     nixpkgs-fmt = lint-app nixpkgs-fmt;
-    ormolu = lint-app ormolu;
+    ormoluStandardGhc8107 = lint-app ormoluStandardGhc8107;
+    ormoluStandardGhc921 = lint-app ormoluStandardGhc921;
     stylish-haskell = lint-app stylish-haskell;
   };
 
   linters = {
     cabal-fmt = porcelainLinter "cabal-fmt" cabal-fmt;
     dhall-format = porcelainLinter "dhall-format" dhall-format;
+    fourmolu = src: opts: porcelainLinter "fourmolu" (fourmoluWithOpts opts) src;
+    fourmoluStandardGhc8107 = porcelainLinter "fourmolu-standard-ghc-8107" fourmoluStandardGhc8107;
+    fourmoluStandardGhc921 = porcelainLinter "fourmolu-standard-ghc-921" fourmoluStandardGhc921;
     hlint = hlint;
     hpack = porcelainLinter "hpack" hpack;
     nixpkgs-fmt = porcelainLinter "nixpkgs-fmt" nixpkgs-fmt;
-    ormolu = porcelainLinter "ormolu" ormolu;
+    ormolu = src: opts: porcelainLinter "ormolu" (ormoluWithOpts opts) src;
+    ormoluStandardGhc8107 = porcelainLinter "ormolu-standard-ghc-8107" ormoluStandardGhc8107;
+    ormoluStandardGhc921 = porcelainLinter "ormolu-standard-ghc-921" ormoluStandardGhc921;
     stylish-haskell = porcelainLinter "stylish-haskell" stylish-haskell;
   };
 
