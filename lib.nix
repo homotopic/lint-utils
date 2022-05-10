@@ -77,7 +77,7 @@ rec {
     meta = { description = "Run hlint"; };
     dontBuild = true;
     installPhase = ''
-      ${pkgs.hlint}/bin/hlint | tee $out
+      ${pkgs.hlint}/bin/hlint . | tee $out
     '';
   };
 
