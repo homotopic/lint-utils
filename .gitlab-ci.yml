@@ -1,0 +1,18 @@
+stages:
+- generate
+- check
+
+generate-flake-ci:
+  stage: generate
+  script: nix run "git+https://gitlab.homotopic.tech/haskell/flake-to-gitlab-ci" > flake-ci.yml
+  artifacts:
+    paths:
+      - flake-ci.yml
+
+flake-ci:
+  stage: check
+  trigger:
+    include:
+      - artifact: flake-ci.yml
+        job: generate-flake-ci
+    strategy: depend
