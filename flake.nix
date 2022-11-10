@@ -12,6 +12,7 @@
       {
         apps = lib.apps;
         linters = lib.linters;
+        lib = lib;
         checks = {
           nixpkgs-fmt = lib.linters.nixpkgs-fmt ./.;
         };
