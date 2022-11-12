@@ -27,9 +27,12 @@ rec {
     '';
   };
 
+  writeFindAndLintBin = { name, filepattern, exec }:
+    writeBashBin name "find . -name '${filepattern}' | xargs ${exec}";
+
   writePorcelainLinter = { name, src, filepattern, exec }:
     let
-      runAll = writeBashBin name "find . -name '${filepattern}' | xargs ${exec}";
+      runAll = writeFindAndLintBin { inherit name filepattern exec; };
       command = "${runAll}/bin/${name}";
       advice = "Found errors with ${name}, try running ${runAll}/bin/${name}";
     in
