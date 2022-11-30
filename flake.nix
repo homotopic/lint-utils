@@ -11,10 +11,11 @@
         linters = with pkgs.stdenv; pkgs.callPackage ./pkgs/linters.nix { inherit writers; };
       in
       {
-        linters = linters;
         checks = {
           dhall-format = linters.dhall-format { src = ./.; };
           nixpkgs-fmt = linters.nixpkgs-fmt { src = ./.; };
         };
+        inherit linters;
+        inherit writers;
       });
 }
