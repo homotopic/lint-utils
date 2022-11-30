@@ -8,7 +8,7 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         writers = pkgs.callPackage ./pkgs/writers.nix { inherit (pkgs.stdenv) mkDerivation; inherit (pkgs.writers) writeBashBin; };
-        linters = with pkgs.stdenv; pkgs.callPackage ./pkgs/linters.nix { writers = writers; };
+        linters = with pkgs.stdenv; pkgs.callPackage ./pkgs/linters.nix { inherit writers; };
       in
       {
         linters = linters;
