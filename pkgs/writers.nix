@@ -16,7 +16,7 @@ rec {
       git init
       git add .
       git commit -m "init"
-      echo "Running ${command}"
+      echo "Running ${name}"
       ${command}
       (if [ -z "$(git status --porcelain)" ]; then
         echo "OK"
