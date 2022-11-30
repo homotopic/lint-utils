@@ -7,14 +7,15 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        lib = import ./lib.nix { inherit pkgs; };
+        writers = pkgs.callPackage ./pkgs/writers.nix { inherit (pkgs.stdenv) mkDerivation; inherit (pkgs.writers) writeBashBin; };
+        linters = with pkgs.stdenv; pkgs.callPackage ./pkgs/linters.nix { inherit writers; };
       in
       {
-        apps = lib.apps;
-        linters = lib.linters;
-        lib = lib;
         checks = {
-          nixpkgs-fmt = lib.linters.nixpkgs-fmt ./.;
+          dhall-format = linters.dhall-format { src = ./.; };
+          nixpkgs-fmt = linters.nixpkgs-fmt { src = ./.; };
         };
+        inherit linters;
+        inherit writers;
       });
 }
