@@ -19,6 +19,8 @@ with writers;
 
   stylish-haskell = callPackage ./linters/stylish-haskell.nix { inherit writePorcelainLinter; };
 
+  tee-check = callPackage ./linters/tee-check.nix { inherit (pkgs.stdenv) mkDerivation; };
+
   werror = callPackage ./linters/werror.nix { inherit overrideCabal; };
 
 }
