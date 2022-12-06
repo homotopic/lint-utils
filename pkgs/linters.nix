@@ -1,5 +1,7 @@
 { pkgs, haskellPackages, callPackage, writers, ... }:
-with writers; {
+with pkgs.haskell.lib.compose;
+with writers;
+{
 
   cabal-fmt = callPackage ./linters/cabal-fmt.nix { inherit writePorcelainLinter; inherit (haskellPackages) cabal-fmt; };
 
@@ -16,5 +18,7 @@ with writers; {
   ormolu = callPackage ./linters/ormolu.nix { inherit writePorcelainLinter; };
 
   stylish-haskell = callPackage ./linters/stylish-haskell.nix { inherit writePorcelainLinter; };
+
+  werror = callPackage ./linters/werror.nix { inherit overrideCabal; };
 
 }
