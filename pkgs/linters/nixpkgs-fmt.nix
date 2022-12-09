@@ -2,9 +2,11 @@
 , writePorcelainLinter
 }:
 
-{ src }: writePorcelainLinter {
+{ src
+, find ? "*.nix"
+}: writePorcelainLinter {
   name = "nixpkgs-fmt-all";
   exec = "${nixpkgs-fmt}/bin/nixpkgs-fmt";
-  filepattern = "*.nix";
+  inherit find;
   inherit src;
 }

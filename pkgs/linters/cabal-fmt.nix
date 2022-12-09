@@ -2,9 +2,11 @@
 , writePorcelainLinter
 }:
 
-{ src }: writePorcelainLinter {
+{ src
+, find ? "*.cabal"
+}: writePorcelainLinter {
   name = "lint-cabal-fmt";
   exec = "${cabal-fmt}/bin/cabal-fmt -i";
-  filepattern = "*.cabal";
+  inherit find;
   inherit src;
 }

@@ -44,12 +44,12 @@ rec {
     '';
   };
 
-  writeFindAndLintBin = { name, filepattern, exec }:
-    writeBashBin name "find . -name '${filepattern}' | xargs ${exec}";
+  writeFindAndLintBin = { name, find, exec }:
+    writeBashBin name "find . -name '${find}' | xargs ${exec}";
 
-  writePorcelainLinter = { name, src, filepattern, exec }:
+  writePorcelainLinter = { name, src, find, exec }:
     let
-      runAll = writeFindAndLintBin { inherit name filepattern exec; };
+      runAll = writeFindAndLintBin { inherit name find exec; };
       command = "${runAll}/bin/${name}";
       advice = "Found errors with ${name}, try running ${runAll}/bin/${name}";
     in

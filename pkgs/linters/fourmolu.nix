@@ -2,9 +2,12 @@
 , writePorcelainLinter
 }:
 
-{ src, opts }: writePorcelainLinter {
+{ src
+, opts
+, find ? "*.hs"
+}: writePorcelainLinter {
   name = "foormolu-all";
   exec = "${fourmolu}/bin/fourmolu -m inplace ${opts}";
-  filepattern = "*.hs";
+  inherit find;
   inherit src;
 }

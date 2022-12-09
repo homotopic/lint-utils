@@ -2,9 +2,11 @@
 , writePorcelainLinter
 }:
 
-{ src }: writePorcelainLinter {
+{ src
+, find ? "*.hs"
+}: writePorcelainLinter {
   name = "stylish-haskell-all";
   exec = "${stylish-haskell}/bin/stylish-haskell -i";
-  filepattern = "*.hs";
+  inherit find;
   inherit src;
 }

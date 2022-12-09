@@ -2,9 +2,11 @@
 , writePorcelainLinter
 }:
 
-{ src }: writePorcelainLinter {
+{ src
+, find ? "package.yaml"
+}: writePorcelainLinter {
   name = "hpack-all";
   exec = "${hpack}/bin/hpack";
-  filepattern = "package.yaml";
+  inherit find;
   inherit src;
 }
