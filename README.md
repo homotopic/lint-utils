@@ -6,15 +6,20 @@ lint-utils contains a library of pre-rolled linters you can use in your flake ch
 {
 
 
-  inputs = 
+  inputs =  {
     lint-utils = {
       url = "git+https://gitlab.nixica.dev/nix/lint-utils";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+   };
 
 
-   outputs = {
+   outputs = inputs@
+   {  self
+   ,  lint-utils
+   , ... 
+   }: {
    ...
      checks =
           with lint-utils.outputs.linters.${system}; {
