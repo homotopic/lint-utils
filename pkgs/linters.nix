@@ -3,7 +3,11 @@ with pkgs.haskell.lib.compose;
 with writers;
 {
 
-  cabal-fmt = callPackage ./linters/cabal-fmt.nix { inherit writePorcelainLinter; inherit (haskellPackages) cabal-fmt; };
+  cabal-fmt = callPackage ./linters/cabal-fmt.nix {
+    inherit (pkgs.lib) getBin;
+    inherit writePorcelainLinter;
+    inherit (haskellPackages) cabal-fmt;
+  };
 
   dhall-format = callPackage ./linters/dhall-format.nix { inherit writePorcelainLinter; };
 
