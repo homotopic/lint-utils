@@ -6,6 +6,7 @@
 rec {
 
   writePorcelainOrDieBin = { name, src, command, advice }: writeBashBin name ''
+    set -e
     PATH="$PATH:${git}/bin"
     export GIT_AUTHOR_NAME="nobody"
     export EMAIL="no@body.com"
