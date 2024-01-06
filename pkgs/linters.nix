@@ -17,6 +17,11 @@ with writers;
 
   hpack = callPackage ./linters/hpack.nix { inherit writePorcelainLinter; };
 
+  nix-rfc166 = callPackage ./linters/nix-rfc166.nix {
+    inherit (pkgs) nixfmt-rfc166;
+    inherit writePorcelainLinter;
+  };
+
   nixpkgs-fmt = callPackage ./linters/nixpkgs-fmt.nix { inherit writePorcelainLinter; };
 
   ormolu = callPackage ./linters/ormolu.nix { inherit writePorcelainLinter; };
