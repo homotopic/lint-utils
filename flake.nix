@@ -16,6 +16,7 @@
       in
       {
         checks = {
+          deadnix = linters.deadnix { src = ./.; };
           dhall-format = linters.dhall-format { src = ./.; };
           nixpkgs-fmt = linters.nixpkgs-fmt { src = ./.; };
         };

@@ -9,6 +9,8 @@ with writers;
     inherit (haskellPackages) cabal-fmt;
   };
 
+  deadnix = callPackage ./linters/deadnix.nix { inherit (pkgs.stdenv) mkDerivation; };
+
   dhall-format = callPackage ./linters/dhall-format.nix { inherit writePorcelainLinter; };
 
   fourmolu = callPackage ./linters/fourmolu.nix { inherit writePorcelainLinter; inherit (haskellPackages) fourmolu; };
