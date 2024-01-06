@@ -25,6 +25,8 @@ with writers;
 
   ormolu = callPackage ./linters/ormolu.nix { inherit writePorcelainLinter; };
 
+  statix = callPackage ./linters/statix.nix { inherit (pkgs.stdenv) mkDerivation; };
+
   stylish-haskell = callPackage ./linters/stylish-haskell.nix { inherit writePorcelainLinter; };
 
   tee-check = callPackage ./linters/tee-check.nix { inherit (pkgs.stdenv) mkDerivation; };

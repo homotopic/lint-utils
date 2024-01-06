@@ -19,6 +19,7 @@
           deadnix = linters.deadnix { src = ./.; };
           dhall-format = linters.dhall-format { src = ./.; };
           nixpkgs-fmt = linters.nixpkgs-fmt { src = ./.; };
+          statix = linters.statix { src = ./.; };
         };
         inherit linters;
         inherit writers;
