@@ -15,6 +15,19 @@
         linters = with pkgs.stdenv; pkgs.callPackage ./pkgs/linters.nix { inherit writers; };
       in
       {
+        packages = {
+          inherit (pkgs)
+            deadnix
+            dhall
+            hlint
+            hpack
+            nixfmt-rfc166
+            nixpkgs-fmt
+            ormolu
+            statix
+            stylish-haskell;
+          inherit (pkgs.haskellPackages) cabal-fmt fourmolu;
+        };
         checks = {
           deadnix = linters.deadnix { src = ./.; };
           dhall-format = linters.dhall-format { src = ./.; };
