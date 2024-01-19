@@ -27,6 +27,7 @@
             statix
             stylish-haskell;
           inherit (pkgs.haskellPackages) cabal-fmt fourmolu;
+          inherit (pkgs.nodePackages) prettier;
         };
         checks = {
           deadnix = linters.deadnix { src = ./.; };

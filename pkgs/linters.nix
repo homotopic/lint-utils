@@ -25,6 +25,10 @@ with writers;
 
   ormolu = callPackage ./linters/ormolu.nix { inherit writePorcelainLinter; };
 
+  prettier = callPackage ./linters/prettier.nix {
+    inherit writePorcelainOrDieCheck; inherit (pkgs.nodePackages) prettier;
+  };
+
   statix = callPackage ./linters/statix.nix { inherit (pkgs.stdenv) mkDerivation; };
 
   stylish-haskell = callPackage ./linters/stylish-haskell.nix { inherit writePorcelainLinter; };
