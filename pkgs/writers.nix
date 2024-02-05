@@ -1,11 +1,12 @@
 { git
+, lib
 , mkDerivation
 , writeBashBin
 }:
-
+let sdn = lib.strings.sanitizeDerivationName; in
 rec {
 
-  writePorcelainOrDieBin = { name, src, command, advice }: writeBashBin name ''
+  writePorcelainOrDieBin = { name, src, command, advice }: writeBashBin (sdn name) ''
     set -e
     PATH="$PATH:${git}/bin"
     export GIT_AUTHOR_NAME="nobody"
@@ -30,17 +31,17 @@ rec {
       inherit name src;
       meta = { description = "Linting check: ${name}"; };
       dontBuild = true;
-      installPhase = "${x}/bin/${name} | tee $out";
+      installPhase = "${x}/bin/${sdn name} | tee $out";
     };
 
   writeFindAndLintBin = { name, find, exec }:
-    writeBashBin name "find . -name '${find}' | xargs ${exec}";
+    writeBashBin (sdn name) "find . -name '${find}' | xargs ${exec}";
 
   writePorcelainLinter = { name, src, find, exec }:
     let
       runAll = writeFindAndLintBin { inherit name find exec; };
-      command = "${runAll}/bin/${name}";
-      advice = "Found errors with ${name}, try running ${runAll}/bin/${name}";
+      command = "${runAll}/bin/${sdn name}";
+      advice = "Found errors with ${name}, try running ${runAll}/bin/${sdn name}";
     in
     writePorcelainOrDieCheck { inherit name src advice command; };
 }
