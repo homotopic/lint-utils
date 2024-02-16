@@ -1,8 +1,6 @@
-{ hlint
-, mkDerivation
-}:
+{ pkgs, mkDerivation }:
 
-{ src }: mkDerivation {
+{ src, hlint ? pkgs.hlint }: mkDerivation {
   name = "hlint";
   inherit src;
   meta = { description = "Run hlint"; };
