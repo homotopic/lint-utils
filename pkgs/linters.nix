@@ -35,6 +35,8 @@ with writers;
 
   tee-check = callPackage ./linters/tee-check.nix { inherit (pkgs.stdenv) mkDerivation; };
 
+  treefmt = callPackage ./linters/treefmt.nix { inherit (pkgs.stdenv) mkDerivation; };
+
   werror = callPackage ./linters/werror.nix { inherit overrideCabal; };
 
 }
