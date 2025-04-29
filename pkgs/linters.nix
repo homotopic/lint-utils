@@ -23,6 +23,8 @@ with writers;
 
   nixpkgs-fmt = callPackage ./linters/nixpkgs-fmt.nix { inherit writePorcelainLinter; };
 
+  no-srp = callPackage ./linters/no-srp.nix { inherit (pkgs.stdenv) mkDerivation; };
+
   ormolu = callPackage ./linters/ormolu.nix { inherit writePorcelainLinter; };
 
   prettier = callPackage ./linters/prettier.nix {
